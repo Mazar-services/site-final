@@ -5,43 +5,43 @@ const serviceItems = [
     title: 'Entretien de bureaux et entreprises',
     text: 'Nettoyage discret, régulier et organisé pour offrir un environnement de travail impeccable à vos équipes.',
     image:
-      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Bureaux professionnels modernes et propres'
+      'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Salle de réunion d’entreprise propre et prête à accueillir les équipes'
   },
   {
     title: 'Nettoyage de commerces et boutiques',
     text: 'Valorisez votre image auprès de vos clients avec des espaces de vente propres, lumineux et accueillants.',
     image:
-      'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Intérieur de boutique propre et rangée'
+      'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Boutique propre et organisée avant l’accueil des clients'
   },
   {
     title: 'Entretien de copropriétés et immeubles',
     text: 'Halls, escaliers, parties communes et vitrages entretenus avec un suivi sérieux et constant.',
     image:
-      'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Hall d’immeuble propre et lumineux'
+      'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Hall d’immeuble professionnel propre et lumineux'
   },
   {
     title: 'Nettoyage de fin de chantier',
     text: 'Remise en état professionnelle après travaux, avec intervention structurée selon vos contraintes de délai.',
     image:
-      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Local professionnel remis en état après travaux'
+      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Zone de chantier avant remise en état final'
   },
   {
     title: 'Entretien régulier',
     text: 'Planification personnalisée : 1 fois par semaine, plusieurs passages ou quotidien selon votre activité.',
     image:
-      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Agent de nettoyage dans un espace de travail professionnel'
+      'https://images.unsplash.com/photo-1581578017424-58f93f6656d9?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Entretien régulier de surfaces vitrées dans des locaux professionnels'
   },
   {
     title: 'Interventions ponctuelles',
     text: 'Besoin urgent ou opération exceptionnelle : nous proposons des interventions rapides et efficaces.',
     image:
-      'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Équipe de nettoyage professionnel en intervention'
+      'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Intervention ponctuelle de nettoyage dans un bureau'
   }
 ]
 
@@ -49,27 +49,21 @@ const cities = [
   'Grenoble',
   'Échirolles',
   'Saint-Martin-d’Hères',
-  'Saint-Égrève',
+  'Fontaine',
   'Meylan',
-  'Montbonnot-Saint-Martin',
-  'Biviers',
-  'Bernin',
+  'Saint-Égrève',
+  'Sassenage',
+  'Le Pont-de-Claix',
+  'Seyssinet-Pariset',
+  'La Tronche',
+  'Gières',
+  'Eybens',
+  'Claix',
   'Crolles',
-  'Saint-Ismier',
-  'Saint-Nazaire-les-Eymes',
+  'Voiron',
+  'Pontcharra',
   'Domène',
-  'Le Versoud',
-  'Lumbin',
-  'La Terrasse',
-  'Le Touvet',
-  'Froges',
-  'Le Champ-près-Froges',
-  'Villard-Bonnot',
-  'Brignoud',
-  'Lancey',
-  'Tencin',
-  'Goncelin',
-  'Pontcharra'
+  'Montbonnot-Saint-Martin'
 ]
 
 const faq = [
@@ -97,20 +91,17 @@ const faq = [
 
 async function submitToFormSubmit(formElement) {
   const formData = new FormData(formElement)
-  const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
+  await fetch('https://formsubmit.co/contact@mazar-services.fr', {
     method: 'POST',
-    headers: { Accept: 'application/json' },
+    mode: 'no-cors',
     body: formData
   })
-
-  if (!response.ok) {
-    throw new Error('Form submit failed')
-  }
 }
 
 export default function App() {
   const [quoteState, setQuoteState] = useState({ loading: false, message: '' })
   const [callbackState, setCallbackState] = useState({ loading: false, message: '' })
+  const [selectedCity, setSelectedCity] = useState('Grenoble')
 
   const handleQuoteSubmit = async (event) => {
     event.preventDefault()
@@ -127,7 +118,7 @@ export default function App() {
     } catch {
       setQuoteState({
         loading: false,
-        message: 'Un problème est survenu. Merci de réessayer ou d’écrire à contact@mazar-services.fr.'
+        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.'
       })
     }
   }
@@ -141,12 +132,13 @@ export default function App() {
       event.currentTarget.reset()
       setCallbackState({
         loading: false,
-        message: 'Merci, votre demande de rappel a bien été envoyée. Nous vous recontactons rapidement par email.'
+        message:
+          'Merci, votre demande de rappel a bien été envoyée. Nous vous recontactons dans les plus brefs délais.'
       })
     } catch {
       setCallbackState({
         loading: false,
-        message: 'Un problème est survenu. Merci de réessayer ou d’écrire à contact@mazar-services.fr.'
+        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.'
       })
     }
   }
@@ -203,10 +195,10 @@ export default function App() {
                 <li>Suivi sérieux et interlocuteur réactif</li>
               </ul>
             </div>
-            <div className="hero-visual" role="img" aria-label="Visuel professionnel bureaux propres">
+            <div className="hero-visual" role="img" aria-label="Visuel professionnel nettoyage en bureau">
               <img
-                src="https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=1500&q=80"
-                alt="Open space professionnel propre et lumineux"
+                src="https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=1500&q=80"
+                alt="Agent de nettoyage professionnel désinfectant un bureau"
                 loading="eager"
               />
             </div>
@@ -280,18 +272,25 @@ export default function App() {
               </p>
               <div className="city-list" aria-label="Villes couvertes">
                 {cities.map((city) => (
-                  <span key={city}>{city}</span>
+                  <button
+                    key={city}
+                    type="button"
+                    className={city === selectedCity ? 'is-active' : ''}
+                    onClick={() => setSelectedCity(city)}
+                  >
+                    {city}
+                  </button>
                 ))}
               </div>
             </div>
             <div className="map-card interactive-map">
               <iframe
                 title="Carte interactive zone d’intervention MAZAR SERVICES"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=5.55%2C45.08%2C6.40%2C45.56&layer=mapnik&marker=45.1885%2C5.7245"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(selectedCity + ', Isère, France')}&z=12&output=embed`}
                 loading="lazy"
               />
               <a
-                href="https://www.openstreetmap.org/?mlat=45.1885&mlon=5.7245#map=10/45.1885/5.7245"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedCity + ', Isère, France')}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -407,24 +406,23 @@ export default function App() {
 
             <aside id="rappel" className="callback">
               <h3>Être rappelé rapidement</h3>
-              <p>Demande courte : laissez votre email, nous revenons vers vous au plus vite.</p>
+              <p>Demande courte : laissez votre numéro, nous revenons vers vous au plus vite.</p>
               <form onSubmit={handleCallbackSubmit}>
                 <input type="hidden" name="_subject" value="Demande de rappel - MAZAR SERVICES" />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
-                <input
-                  type="hidden"
-                  name="_autoresponse"
-                  value="Merci, votre demande de rappel a bien été reçue. MAZAR SERVICES vous recontacte rapidement par email."
-                />
                 <label>
-                  Email
-                  <input type="email" name="Email" required />
+                  Téléphone
+                  <input type="tel" name="Téléphone" required />
                 </label>
                 <button className="btn submit-btn" type="submit" disabled={callbackState.loading}>
                   {callbackState.loading ? 'Envoi en cours...' : 'Demander un rappel'}
                 </button>
               </form>
+
+              <p className="sms-note">
+                SMS automatique : possible en option via une intégration Twilio/OVH SMS (à activer ensuite).
+              </p>
 
               <div className="contact-box">
                 <h4>Contact direct</h4>
