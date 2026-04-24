@@ -1,33 +1,47 @@
+import { useState } from 'react'
+
 const serviceItems = [
   {
     title: 'Entretien de bureaux et entreprises',
     text: 'Nettoyage discret, régulier et organisé pour offrir un environnement de travail impeccable à vos équipes.',
-    visual: 'office'
+    image:
+      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Bureaux professionnels modernes et propres'
   },
   {
     title: 'Nettoyage de commerces et boutiques',
     text: 'Valorisez votre image auprès de vos clients avec des espaces de vente propres, lumineux et accueillants.',
-    visual: 'shop'
+    image:
+      'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Intérieur de boutique propre et rangée'
   },
   {
     title: 'Entretien de copropriétés et immeubles',
     text: 'Halls, escaliers, parties communes et vitrages entretenus avec un suivi sérieux et constant.',
-    visual: 'building'
+    image:
+      'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Hall d’immeuble propre et lumineux'
   },
   {
     title: 'Nettoyage de fin de chantier',
     text: 'Remise en état professionnelle après travaux, avec intervention structurée selon vos contraintes de délai.',
-    visual: 'renovation'
+    image:
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Local professionnel remis en état après travaux'
   },
   {
     title: 'Entretien régulier',
     text: 'Planification personnalisée : 1 fois par semaine, plusieurs passages ou quotidien selon votre activité.',
-    visual: 'calendar'
+    image:
+      'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Agent de nettoyage dans un espace de travail professionnel'
   },
   {
     title: 'Interventions ponctuelles',
     text: 'Besoin urgent ou opération exceptionnelle : nous proposons des interventions rapides et efficaces.',
-    visual: 'flash'
+    image:
+      'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Équipe de nettoyage professionnel en intervention'
   }
 ]
 
@@ -81,17 +95,62 @@ const faq = [
   }
 ]
 
-function Visual({ type }) {
-  return (
-    <div className={`service-visual ${type}`} aria-hidden="true">
-      <span />
-      <span />
-      <span />
-    </div>
-  )
+async function submitToFormSubmit(formElement) {
+  const formData = new FormData(formElement)
+  const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+    body: formData
+  })
+
+  if (!response.ok) {
+    throw new Error('Form submit failed')
+  }
 }
 
 export default function App() {
+  const [quoteState, setQuoteState] = useState({ loading: false, message: '' })
+  const [callbackState, setCallbackState] = useState({ loading: false, message: '' })
+
+  const handleQuoteSubmit = async (event) => {
+    event.preventDefault()
+    setQuoteState({ loading: true, message: '' })
+
+    try {
+      await submitToFormSubmit(event.currentTarget)
+      event.currentTarget.reset()
+      setQuoteState({
+        loading: false,
+        message:
+          'Merci, votre demande a bien été envoyée. Nous revenons vers vous très rapidement par email.'
+      })
+    } catch {
+      setQuoteState({
+        loading: false,
+        message: 'Un problème est survenu. Merci de réessayer ou d’écrire à contact@mazar-services.fr.'
+      })
+    }
+  }
+
+  const handleCallbackSubmit = async (event) => {
+    event.preventDefault()
+    setCallbackState({ loading: true, message: '' })
+
+    try {
+      await submitToFormSubmit(event.currentTarget)
+      event.currentTarget.reset()
+      setCallbackState({
+        loading: false,
+        message: 'Merci, votre demande de rappel a bien été envoyée. Nous vous recontactons rapidement par email.'
+      })
+    } catch {
+      setCallbackState({
+        loading: false,
+        message: 'Un problème est survenu. Merci de réessayer ou d’écrire à contact@mazar-services.fr.'
+      })
+    }
+  }
+
   return (
     <>
       <header className="site-header">
@@ -145,7 +204,11 @@ export default function App() {
               </ul>
             </div>
             <div className="hero-visual" role="img" aria-label="Visuel professionnel bureaux propres">
-              <img src="/hero-b2b.svg" alt="Bureaux modernes propres pour nettoyage professionnel" />
+              <img
+                src="https://images.unsplash.com/photo-1497215842964-222b430dc094?auto=format&fit=crop&w=1500&q=80"
+                alt="Open space professionnel propre et lumineux"
+                loading="eager"
+              />
             </div>
           </div>
         </section>
@@ -159,7 +222,7 @@ export default function App() {
             <div className="services-grid">
               {serviceItems.map((item) => (
                 <article key={item.title} className="card service-card">
-                  <Visual type={item.visual} />
+                  <img className="service-photo" src={item.image} alt={item.alt} loading="lazy" />
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
                 </article>
@@ -201,8 +264,19 @@ export default function App() {
                 ))}
               </div>
             </div>
-            <div className="map-card">
-              <img src="/zone-map.svg" alt="Carte visuelle de la zone d’intervention MAZAR SERVICES" />
+            <div className="map-card interactive-map">
+              <iframe
+                title="Carte interactive zone d’intervention MAZAR SERVICES"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=5.55%2C45.08%2C6.40%2C45.56&layer=mapnik&marker=45.1885%2C5.7245"
+                loading="lazy"
+              />
+              <a
+                href="https://www.openstreetmap.org/?mlat=45.1885&mlon=5.7245#map=10/45.1885/5.7245"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Ouvrir la carte en plein écran
+              </a>
             </div>
           </div>
         </section>
@@ -212,15 +286,10 @@ export default function App() {
             <div>
               <h2>Demande de devis</h2>
               <p>Décrivez votre besoin et recevez une réponse rapide avec une proposition adaptée.</p>
-              <form
-                className="devis-form"
-                action="https://formsubmit.co/contact@mazar-services.fr"
-                method="POST"
-              >
+              <form className="devis-form" onSubmit={handleQuoteSubmit}>
                 <input type="hidden" name="_subject" value="Nouvelle demande de devis - MAZAR SERVICES" />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
-                <input type="hidden" name="_next" value="https://www.mazar-services.fr/#devis" />
 
                 <label>
                   Entreprise / structure
@@ -230,16 +299,10 @@ export default function App() {
                   Nom du contact
                   <input name="Contact" type="text" required />
                 </label>
-                <div className="two-cols">
-                  <label>
-                    Email
-                    <input name="Email" type="email" required />
-                  </label>
-                  <label>
-                    Téléphone
-                    <input name="Téléphone" type="tel" required />
-                  </label>
-                </div>
+                <label>
+                  Email
+                  <input name="Email" type="email" required />
+                </label>
 
                 <label>
                   Type de structure
@@ -301,25 +364,25 @@ export default function App() {
                   />
                 </label>
 
-                <button className="btn" type="submit">
-                  Envoyer la demande
+                <button className="btn submit-btn" type="submit" disabled={quoteState.loading}>
+                  {quoteState.loading ? 'Envoi en cours...' : 'Envoyer la demande'}
                 </button>
               </form>
             </div>
 
             <aside id="rappel" className="callback">
               <h3>Être rappelé rapidement</h3>
-              <p>Demande courte : laissez votre numéro, nous revenons vers vous au plus vite.</p>
-              <form action="https://formsubmit.co/contact@mazar-services.fr" method="POST">
+              <p>Demande courte : laissez votre email, nous revenons vers vous au plus vite.</p>
+              <form onSubmit={handleCallbackSubmit}>
                 <input type="hidden" name="_subject" value="Demande de rappel - MAZAR SERVICES" />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
                 <label>
-                  Téléphone
-                  <input type="tel" name="Téléphone" required />
+                  Email
+                  <input type="email" name="Email" required />
                 </label>
-                <button className="btn btn-outline" type="submit">
-                  Demander un rappel
+                <button className="btn submit-btn" type="submit" disabled={callbackState.loading}>
+                  {callbackState.loading ? 'Envoi en cours...' : 'Demander un rappel'}
                 </button>
               </form>
 
@@ -328,9 +391,6 @@ export default function App() {
                 <p>
                   <strong>Email :</strong>{' '}
                   <a href="mailto:contact@mazar-services.fr">contact@mazar-services.fr</a>
-                </p>
-                <p>
-                  <strong>Téléphone :</strong> <a href="tel:+33768531784">07 68 53 17 84</a>
                 </p>
                 <p>
                   <strong>Zone :</strong> Grenoble, Grésivaudan et alentours
@@ -368,9 +428,6 @@ export default function App() {
             <p>
               <a href="mailto:contact@mazar-services.fr">contact@mazar-services.fr</a>
             </p>
-            <p>
-              <a href="tel:+33768531784">07 68 53 17 84</a>
-            </p>
             <p>SIRET : 94172006200012</p>
           </div>
           <div>
@@ -379,6 +436,12 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {(quoteState.message || callbackState.message) && (
+        <div className="toast" role="status" aria-live="polite">
+          {quoteState.message || callbackState.message}
+        </div>
+      )}
     </>
   )
 }

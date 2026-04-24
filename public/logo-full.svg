@@ -1,10 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="84" viewBox="0 0 320 84" fill="none" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="108" viewBox="0 0 460 108" fill="none" role="img" aria-labelledby="t d">
   <title id="t">Logo MAZAR SERVICES</title>
-  <desc id="d">Logo en bleu marine et doré pour MAZAR SERVICES.</desc>
-  <rect width="84" height="84" rx="18" fill="#0B1F3A"/>
-  <path d="M17 59V24h12l13 19 13-19h12v35H55V42l-13 18-13-18v17H17Z" fill="#fff"/>
-  <rect x="8" y="8" width="68" height="68" rx="14" stroke="#CBA45B" stroke-width="2"/>
-  <text x="98" y="36" fill="#0B1F3A" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="800" font-size="26">MAZAR</text>
-  <text x="99" y="58" fill="#5B6470" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="600" font-size="18">SERVICES</text>
-  <line x1="98" y1="64" x2="305" y2="64" stroke="#CBA45B" stroke-width="2"/>
+  <desc id="d">Logo premium bleu marine et doré, avec badge M et signature MAZAR SERVICES.</desc>
+  <rect x="10" y="12" width="86" height="86" rx="20" fill="#0B1F3A"/>
+  <rect x="15" y="17" width="76" height="76" rx="17" stroke="#CBA45B" stroke-width="2"/>
+  <path d="M29 76V32h12l12 17 12-17h12v44H65V52L53 69 41 52v24H29Z" fill="#fff"/>
+
+  <text x="108" y="54" fill="#0B1F3A" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="800" font-size="45" letter-spacing="1">MAZAR</text>
+  <text x="112" y="82" fill="#5B6470" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700" font-size="31" letter-spacing="0.5">SERVICES</text>
+
+  <path d="M102 95C170 80 266 79 340 90C392 97 423 95 450 84" stroke="#CBA45B" stroke-width="3" stroke-linecap="round"/>
 </svg>
