@@ -248,6 +248,26 @@ export default function App() {
                 </div>
               ))}
             </div>
+            <div className="process-strip" aria-label="Processus de travail en 3 étapes">
+              <h3>Notre méthode en 3 étapes</h3>
+              <div className="process-grid">
+                <article>
+                  <span>1</span>
+                  <h4>Analyse rapide</h4>
+                  <p>Nous analysons vos besoins, surfaces, contraintes horaires et objectifs d’image.</p>
+                </article>
+                <article>
+                  <span>2</span>
+                  <h4>Plan d’intervention</h4>
+                  <p>Vous recevez un plan clair, sans engagement, avec une organisation adaptée à votre structure.</p>
+                </article>
+                <article>
+                  <span>3</span>
+                  <h4>Suivi qualité</h4>
+                  <p>Contrôle régulier, ajustements rapides et interlocuteur disponible pour un service fiable.</p>
+                </article>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -290,6 +310,11 @@ export default function App() {
                 <input type="hidden" name="_subject" value="Nouvelle demande de devis - MAZAR SERVICES" />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
+                <input
+                  type="hidden"
+                  name="_autoresponse"
+                  value="Merci pour votre demande. MAZAR SERVICES a bien reçu votre message et vous répond sous 24h ouvrées."
+                />
 
                 <label>
                   Entreprise / structure
@@ -377,6 +402,11 @@ export default function App() {
                 <input type="hidden" name="_subject" value="Demande de rappel - MAZAR SERVICES" />
                 <input type="hidden" name="_captcha" value="false" />
                 <input type="hidden" name="_template" value="table" />
+                <input
+                  type="hidden"
+                  name="_autoresponse"
+                  value="Merci, votre demande de rappel a bien été reçue. MAZAR SERVICES vous recontacte rapidement par email."
+                />
                 <label>
                   Email
                   <input type="email" name="Email" required />
@@ -442,6 +472,10 @@ export default function App() {
           {quoteState.message || callbackState.message}
         </div>
       )}
+
+      <a className="sticky-mobile-cta" href="#devis">
+        Demander un devis
+      </a>
     </>
   )
 }
