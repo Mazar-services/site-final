@@ -200,6 +200,31 @@ h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); color: var(--navy); margin: 0 0 1re
   display: grid;
   gap: .75rem;
 }
+.devis-helper {
+  margin-top: .9rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: .8rem;
+  padding: .8rem 1rem;
+}
+.devis-helper h3 {
+  margin: 0 0 .35rem;
+  color: #fff;
+  font-size: 1.03rem;
+}
+.devis-helper ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.devis-helper li {
+  margin: .15rem 0;
+  color: #d8e3f5;
+}
+.reply-time {
+  margin: .8rem 0 0;
+  color: #f1dfb6;
+  font-weight: 700;
+}
 label { display: grid; gap: .3rem; font-weight: 600; }
 input, select, textarea {
   width: 100%;

@@ -306,6 +306,16 @@ export default function App() {
             <div>
               <h2>Demande de devis</h2>
               <p>Décrivez votre besoin et recevez une réponse rapide avec une proposition adaptée.</p>
+              <div className="devis-helper">
+                <h3>Pour un devis plus rapide</h3>
+                <ul>
+                  <li>Adresse du site à entretenir</li>
+                  <li>Surface approximative</li>
+                  <li>Fréquence souhaitée</li>
+                  <li>Contraintes horaires ou accès</li>
+                </ul>
+              </div>
+              <p className="reply-time">⏱ Réponse sous 24h ouvrées (généralement plus rapide).</p>
               <form className="devis-form" onSubmit={handleQuoteSubmit}>
                 <input type="hidden" name="_subject" value="Nouvelle demande de devis - MAZAR SERVICES" />
                 <input type="hidden" name="_captcha" value="false" />
@@ -423,6 +433,9 @@ export default function App() {
                   <a href="mailto:contact@mazar-services.fr">contact@mazar-services.fr</a>
                 </p>
                 <p>
+                  <strong>Délai de réponse :</strong> sous 24h ouvrées
+                </p>
+                <p>
                   <strong>Zone :</strong> Grenoble, Grésivaudan et alentours
                 </p>
                 <p>
@@ -458,6 +471,7 @@ export default function App() {
             <p>
               <a href="mailto:contact@mazar-services.fr">contact@mazar-services.fr</a>
             </p>
+            <p>Réponse sous 24h ouvrées</p>
             <p>SIRET : 94172006200012</p>
           </div>
           <div>
