@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const serviceItems = [
   {
@@ -89,14 +89,42 @@ const faq = [
   }
 ]
 
+
+async function submitToFormSubmit(formElement, subject) {
+  const fields = Object.fromEntries(new FormData(formElement).entries())
+
+  const payload = {
+    ...fields,
+    _subject: subject,
+    _captcha: 'false',
+    _template: 'table'
+  }
+
+  const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+
+  if (!response.ok) {
+    throw new Error('Réponse réseau invalide')
+  }
+
+  const result = await response.json()
+
+  if (result.success !== 'true' && result.success !== true) {
+    throw new Error('FormSubmit a rejeté la requête')
+  }
+}
+
 export default function App() {
   const [quoteState, setQuoteState] = useState({ loading: false })
   const [callbackState, setCallbackState] = useState({ loading: false })
   const [selectedCity, setSelectedCity] = useState('Grenoble')
   const [toast, setToast] = useState({ message: '', type: 'success', leaving: false })
-  const [pendingSubmission, setPendingSubmission] = useState(null)
-  const iframeLoadedOnce = useRef(false)
-  const submitTimeoutRef = useRef(null)
 
   useEffect(() => {
     if (!toast.message) return undefined
@@ -116,68 +144,53 @@ export default function App() {
   }, [toast.message])
 
 
-  useEffect(() => {
-    return () => {
-      if (submitTimeoutRef.current) clearTimeout(submitTimeoutRef.current)
-    }
-  }, [])
 
-  const resetLoadingStates = () => {
-    setQuoteState({ loading: false })
-    setCallbackState({ loading: false })
-  }
+  const handleQuoteSubmit = async (event) => {
+    event.preventDefault()
+    setQuoteState({ loading: true })
 
-  const setSubmissionTimeout = () => {
-    if (submitTimeoutRef.current) clearTimeout(submitTimeoutRef.current)
-
-    submitTimeoutRef.current = setTimeout(() => {
-      resetLoadingStates()
-      setPendingSubmission(null)
+    try {
+      await submitToFormSubmit(event.currentTarget, 'Nouvelle demande de devis - MAZAR SERVICES')
+      event.currentTarget.reset()
+      setToast({
+        message:
+          'Merci de nous avoir contactés. Notre équipe va répondre à votre requête dans les plus brefs délais.',
+        type: 'success',
+        leaving: false
+      })
+    } catch {
       setToast({
         message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
         type: 'error',
         leaving: false
       })
-    }, 8000)
+    } finally {
+      setQuoteState({ loading: false })
+    }
   }
 
-  const handleQuoteSubmit = () => {
-    setQuoteState({ loading: true })
-    setPendingSubmission('quote')
-    setSubmissionTimeout()
-  }
-
-  const handleCallbackSubmit = () => {
+  const handleCallbackSubmit = async (event) => {
+    event.preventDefault()
     setCallbackState({ loading: true })
-    setPendingSubmission('callback')
-    setSubmissionTimeout()
-  }
 
-  const handleHiddenFrameLoad = () => {
-    if (!iframeLoadedOnce.current) {
-      iframeLoadedOnce.current = true
-      return
+    try {
+      await submitToFormSubmit(event.currentTarget, 'Demande de rappel - MAZAR SERVICES')
+      event.currentTarget.reset()
+      setToast({
+        message:
+          'Merci pour votre demande de rappel. Notre équipe vous recontacte dans les plus brefs délais.',
+        type: 'success',
+        leaving: false
+      })
+    } catch {
+      setToast({
+        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
+        type: 'error',
+        leaving: false
+      })
+    } finally {
+      setCallbackState({ loading: false })
     }
-
-    if (!pendingSubmission) return
-
-    if (submitTimeoutRef.current) {
-      clearTimeout(submitTimeoutRef.current)
-      submitTimeoutRef.current = null
-    }
-
-    const successMessage =
-      pendingSubmission === 'quote'
-        ? 'Merci de nous avoir contactés. Notre équipe va répondre à votre requête dans les plus brefs délais.'
-        : 'Merci pour votre demande de rappel. Notre équipe vous recontacte dans les plus brefs délais.'
-
-    resetLoadingStates()
-    setPendingSubmission(null)
-    setToast({
-      message: successMessage,
-      type: 'success',
-      leaving: false
-    })
   }
 
 
@@ -353,11 +366,7 @@ export default function App() {
                 </ul>
               </div>
               <p className="reply-time">⏱ Réponse sous 24h ouvrées (généralement plus rapide).</p>
-              <form className="devis-form" onSubmit={handleQuoteSubmit} action="https://formsubmit.co/contact@mazar-services.fr" method="POST" target="hidden-form-target">
-                <input type="hidden" name="_subject" value="Nouvelle demande de devis - MAZAR SERVICES" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-
+              <form className="devis-form" onSubmit={handleQuoteSubmit}>
                 <label>
                   Entreprise / structure
                   <input name="Entreprise" type="text" required />
@@ -440,11 +449,7 @@ export default function App() {
             <aside id="rappel" className="callback">
               <h3>Être rappelé rapidement</h3>
               <p>Insérez votre numéro pour être appelé dans les plus brefs délais.</p>
-              <form onSubmit={handleCallbackSubmit} action="https://formsubmit.co/contact@mazar-services.fr" method="POST" target="hidden-form-target">
-                <input type="hidden" name="_subject" value="Demande de rappel - MAZAR SERVICES" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-
+              <form onSubmit={handleCallbackSubmit}>
                 <label>
                   Téléphone
                   <input type="tel" name="Téléphone" required />
@@ -519,7 +524,6 @@ export default function App() {
         </div>
       )}
 
-      <iframe title="Soumission formulaire" name="hidden-form-target" className="hidden-frame" onLoad={handleHiddenFrameLoad} />
 
       <a className="sticky-mobile-cta" href="#devis">
         Demander un devis

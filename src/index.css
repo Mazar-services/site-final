@@ -338,10 +338,6 @@ summary { cursor: pointer; font-weight: 700; color: var(--navy); }
     transform: translateY(10px) scale(.98);
   }
 }
-.hidden-frame {
-  display: none;
-}
-
 .sticky-mobile-cta {
   display: none;
 }
