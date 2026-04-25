@@ -89,21 +89,6 @@ const faq = [
   }
 ]
 
-async function submitToFormSubmit(formElement, subject) {
-  const formData = new FormData(formElement)
-  formData.append('_subject', subject)
-  formData.append('_captcha', 'false')
-  formData.append('_template', 'table')
-
-  await fetch('https://formsubmit.co/contact@mazar-services.fr', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: formData
-  })
-
-  return { success: true }
-}
-
 export default function App() {
   const [quoteState, setQuoteState] = useState({ loading: false, message: '' })
   const [callbackState, setCallbackState] = useState({ loading: false, message: '' })
@@ -127,52 +112,36 @@ export default function App() {
     }
   }, [toast.message])
 
-  const handleQuoteSubmit = async (event) => {
-    event.preventDefault()
+  const handleQuoteSubmit = (event) => {
     setQuoteState({ loading: true, message: '' })
 
-    try {
-      await submitToFormSubmit(event.currentTarget, 'Nouvelle demande de devis - MAZAR SERVICES')
+    setToast({
+      message:
+        'Merci de nous avoir contactés. Notre équipe va répondre à votre requête dans les plus brefs délais.',
+      type: 'success',
+      leaving: false
+    })
+
+    setTimeout(() => {
       event.currentTarget.reset()
       setQuoteState({ loading: false, message: '' })
-      setToast({
-        message:
-          'Merci de nous avoir contactés. Notre équipe va répondre à votre requête dans les plus brefs délais.',
-        type: 'success',
-        leaving: false
-      })
-    } catch {
-      setQuoteState({ loading: false, message: '' })
-      setToast({
-        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
-        type: 'error',
-        leaving: false
-      })
-    }
+    }, 500)
   }
 
-  const handleCallbackSubmit = async (event) => {
-    event.preventDefault()
+  const handleCallbackSubmit = (event) => {
     setCallbackState({ loading: true, message: '' })
 
-    try {
-      await submitToFormSubmit(event.currentTarget, 'Demande de rappel - MAZAR SERVICES')
+    setToast({
+      message:
+        'Merci pour votre demande de rappel. Notre équipe vous recontacte dans les plus brefs délais.',
+      type: 'success',
+      leaving: false
+    })
+
+    setTimeout(() => {
       event.currentTarget.reset()
       setCallbackState({ loading: false, message: '' })
-      setToast({
-        message:
-          'Merci pour votre demande de rappel. Notre équipe vous recontacte dans les plus brefs délais.',
-        type: 'success',
-        leaving: false
-      })
-    } catch {
-      setCallbackState({ loading: false, message: '' })
-      setToast({
-        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
-        type: 'error',
-        leaving: false
-      })
-    }
+    }, 500)
   }
 
   return (
@@ -347,7 +316,11 @@ export default function App() {
                 </ul>
               </div>
               <p className="reply-time">⏱ Réponse sous 24h ouvrées (généralement plus rapide).</p>
-              <form className="devis-form" onSubmit={handleQuoteSubmit}>
+              <form className="devis-form" onSubmit={handleQuoteSubmit} action="https://formsubmit.co/contact@mazar-services.fr" method="POST" target="hidden-form-target">
+                <input type="hidden" name="_subject" value="Nouvelle demande de devis - MAZAR SERVICES" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+
                 <label>
                   Entreprise / structure
                   <input name="Entreprise" type="text" required />
@@ -430,7 +403,11 @@ export default function App() {
             <aside id="rappel" className="callback">
               <h3>Être rappelé rapidement</h3>
               <p>Insérez votre numéro pour être appelé dans les plus brefs délais.</p>
-              <form onSubmit={handleCallbackSubmit}>
+              <form onSubmit={handleCallbackSubmit} action="https://formsubmit.co/contact@mazar-services.fr" method="POST" target="hidden-form-target">
+                <input type="hidden" name="_subject" value="Demande de rappel - MAZAR SERVICES" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_template" value="table" />
+
                 <label>
                   Téléphone
                   <input type="tel" name="Téléphone" required />
@@ -504,6 +481,8 @@ export default function App() {
           {toast.message}
         </div>
       )}
+
+      <iframe title="Soumission formulaire" name="hidden-form-target" className="hidden-frame" />
 
       <a className="sticky-mobile-cta" href="#devis">
         Demander un devis
