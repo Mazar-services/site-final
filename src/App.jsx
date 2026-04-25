@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const serviceItems = [
   {
@@ -108,6 +108,24 @@ export default function App() {
   const [quoteState, setQuoteState] = useState({ loading: false, message: '' })
   const [callbackState, setCallbackState] = useState({ loading: false, message: '' })
   const [selectedCity, setSelectedCity] = useState('Grenoble')
+  const [toast, setToast] = useState({ message: '', type: 'success', leaving: false })
+
+  useEffect(() => {
+    if (!toast.message) return undefined
+
+    const startLeaving = setTimeout(() => {
+      setToast((prev) => ({ ...prev, leaving: true }))
+    }, 5000)
+
+    const clearToast = setTimeout(() => {
+      setToast({ message: '', type: 'success', leaving: false })
+    }, 5400)
+
+    return () => {
+      clearTimeout(startLeaving)
+      clearTimeout(clearToast)
+    }
+  }, [toast.message])
 
   const handleQuoteSubmit = async (event) => {
     event.preventDefault()
@@ -116,15 +134,19 @@ export default function App() {
     try {
       await submitToFormSubmit(event.currentTarget, 'Nouvelle demande de devis - MAZAR SERVICES')
       event.currentTarget.reset()
-      setQuoteState({
-        loading: false,
+      setQuoteState({ loading: false, message: '' })
+      setToast({
         message:
-          'Merci, votre demande a bien été envoyée. Nous revenons vers vous très rapidement par email.'
+          'Merci de nous avoir contactés. Notre équipe va répondre à votre requête dans les plus brefs délais.',
+        type: 'success',
+        leaving: false
       })
     } catch {
-      setQuoteState({
-        loading: false,
-        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.'
+      setQuoteState({ loading: false, message: '' })
+      setToast({
+        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
+        type: 'error',
+        leaving: false
       })
     }
   }
@@ -136,15 +158,19 @@ export default function App() {
     try {
       await submitToFormSubmit(event.currentTarget, 'Demande de rappel - MAZAR SERVICES')
       event.currentTarget.reset()
-      setCallbackState({
-        loading: false,
+      setCallbackState({ loading: false, message: '' })
+      setToast({
         message:
-          'Merci, votre demande de rappel a bien été envoyée. Nous vous recontactons dans les plus brefs délais.'
+          'Merci pour votre demande de rappel. Notre équipe vous recontacte dans les plus brefs délais.',
+        type: 'success',
+        leaving: false
       })
     } catch {
-      setCallbackState({
-        loading: false,
-        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.'
+      setCallbackState({ loading: false, message: '' })
+      setToast({
+        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
+        type: 'error',
+        leaving: false
       })
     }
   }
@@ -469,9 +495,13 @@ export default function App() {
         </div>
       </footer>
 
-      {(quoteState.message || callbackState.message) && (
-        <div className="toast" role="status" aria-live="polite">
-          {quoteState.message || callbackState.message}
+      {toast.message && (
+        <div
+          className={`toast ${toast.type === 'error' ? 'toast-error' : 'toast-success'} ${toast.leaving ? 'toast-leave' : 'toast-enter'}`}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.message}
         </div>
       )}
 
