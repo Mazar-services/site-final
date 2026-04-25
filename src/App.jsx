@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const serviceItems = [
   {
@@ -90,10 +90,13 @@ const faq = [
 ]
 
 export default function App() {
-  const [quoteState, setQuoteState] = useState({ loading: false, message: '' })
-  const [callbackState, setCallbackState] = useState({ loading: false, message: '' })
+  const [quoteState, setQuoteState] = useState({ loading: false })
+  const [callbackState, setCallbackState] = useState({ loading: false })
   const [selectedCity, setSelectedCity] = useState('Grenoble')
   const [toast, setToast] = useState({ message: '', type: 'success', leaving: false })
+  const [pendingSubmission, setPendingSubmission] = useState(null)
+  const iframeLoadedOnce = useRef(false)
+  const submitTimeoutRef = useRef(null)
 
   useEffect(() => {
     if (!toast.message) return undefined
@@ -112,37 +115,71 @@ export default function App() {
     }
   }, [toast.message])
 
-  const handleQuoteSubmit = (event) => {
-    setQuoteState({ loading: true, message: '' })
 
+  useEffect(() => {
+    return () => {
+      if (submitTimeoutRef.current) clearTimeout(submitTimeoutRef.current)
+    }
+  }, [])
+
+  const resetLoadingStates = () => {
+    setQuoteState({ loading: false })
+    setCallbackState({ loading: false })
+  }
+
+  const setSubmissionTimeout = () => {
+    if (submitTimeoutRef.current) clearTimeout(submitTimeoutRef.current)
+
+    submitTimeoutRef.current = setTimeout(() => {
+      resetLoadingStates()
+      setPendingSubmission(null)
+      setToast({
+        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
+        type: 'error',
+        leaving: false
+      })
+    }, 8000)
+  }
+
+  const handleQuoteSubmit = () => {
+    setQuoteState({ loading: true })
+    setPendingSubmission('quote')
+    setSubmissionTimeout()
+  }
+
+  const handleCallbackSubmit = () => {
+    setCallbackState({ loading: true })
+    setPendingSubmission('callback')
+    setSubmissionTimeout()
+  }
+
+  const handleHiddenFrameLoad = () => {
+    if (!iframeLoadedOnce.current) {
+      iframeLoadedOnce.current = true
+      return
+    }
+
+    if (!pendingSubmission) return
+
+    if (submitTimeoutRef.current) {
+      clearTimeout(submitTimeoutRef.current)
+      submitTimeoutRef.current = null
+    }
+
+    const successMessage =
+      pendingSubmission === 'quote'
+        ? 'Merci de nous avoir contactés. Notre équipe va répondre à votre requête dans les plus brefs délais.'
+        : 'Merci pour votre demande de rappel. Notre équipe vous recontacte dans les plus brefs délais.'
+
+    resetLoadingStates()
+    setPendingSubmission(null)
     setToast({
-      message:
-        'Merci de nous avoir contactés. Notre équipe va répondre à votre requête dans les plus brefs délais.',
+      message: successMessage,
       type: 'success',
       leaving: false
     })
-
-    setTimeout(() => {
-      event.currentTarget.reset()
-      setQuoteState({ loading: false, message: '' })
-    }, 500)
   }
 
-  const handleCallbackSubmit = (event) => {
-    setCallbackState({ loading: true, message: '' })
-
-    setToast({
-      message:
-        'Merci pour votre demande de rappel. Notre équipe vous recontacte dans les plus brefs délais.',
-      type: 'success',
-      leaving: false
-    })
-
-    setTimeout(() => {
-      event.currentTarget.reset()
-      setCallbackState({ loading: false, message: '' })
-    }, 500)
-  }
 
   return (
     <>
@@ -327,11 +364,11 @@ export default function App() {
                 </label>
                 <label>
                   Nom du contact
-                  <input name="Contact" type="text" required />
+                  <input name="name" type="text" required />
                 </label>
                 <label>
                   Email
-                  <input name="Email" type="email" required />
+                  <input name="email" type="email" required />
                 </label>
 
                 <label>
@@ -388,7 +425,7 @@ export default function App() {
                 <label>
                   Message / précisions
                   <textarea
-                    name="Message"
+                    name="message"
                     rows="5"
                     placeholder="Jours souhaités, horaires, contraintes, type de locaux, besoin particulier..."
                   />
@@ -482,7 +519,7 @@ export default function App() {
         </div>
       )}
 
-      <iframe title="Soumission formulaire" name="hidden-form-target" className="hidden-frame" />
+      <iframe title="Soumission formulaire" name="hidden-form-target" className="hidden-frame" onLoad={handleHiddenFrameLoad} />
 
       <a className="sticky-mobile-cta" href="#devis">
         Demander un devis
