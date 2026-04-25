@@ -34,7 +34,8 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid var(--border);
 }
 .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 0; }
-.brand img { height: 72px; width: auto; }
+.brand { display: inline-flex; align-items: center; }
+.brand img { height: 82px; width: auto; }
 nav { display: flex; gap: 1.2rem; font-weight: 600; color: var(--navy); }
 .header-cta { display: flex; gap: .6rem; }
 
@@ -256,11 +257,6 @@ textarea { resize: vertical; }
   padding-top: .9rem;
 }
 .contact-box a { color: #fff; font-weight: 700; }
-.sms-note {
-  margin-top: .8rem;
-  color: #d6e0f3;
-  font-size: .92rem;
-}
 
 .submit-btn {
   background: linear-gradient(135deg, #d6b06a, #bc9042);
@@ -321,7 +317,7 @@ summary { cursor: pointer; font-weight: 700; color: var(--navy); }
 
 @media (max-width: 700px) {
   .section { padding: 3.8rem 0; }
-  .brand img { height: 56px; }
+  .brand img { height: 64px; }
   .header-cta .btn { padding: .62rem .7rem; font-size: .88rem; }
   .services-grid, .reasons-grid, .footer-grid, .two-cols, .process-grid { grid-template-columns: 1fr; }
   .toast { left: 12px; right: 12px; bottom: 12px; max-width: none; }

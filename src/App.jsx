@@ -5,43 +5,43 @@ const serviceItems = [
     title: 'Entretien de bureaux et entreprises',
     text: 'Nettoyage discret, régulier et organisé pour offrir un environnement de travail impeccable à vos équipes.',
     image:
-      'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Salle de réunion d’entreprise propre et prête à accueillir les équipes'
+      'https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Bureau professionnel moderne, propre et lumineux'
   },
   {
     title: 'Nettoyage de commerces et boutiques',
     text: 'Valorisez votre image auprès de vos clients avec des espaces de vente propres, lumineux et accueillants.',
     image:
-      'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Boutique propre et organisée avant l’accueil des clients'
+      'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Boutique de prêt-à-porter propre et bien présentée'
   },
   {
     title: 'Entretien de copropriétés et immeubles',
     text: 'Halls, escaliers, parties communes et vitrages entretenus avec un suivi sérieux et constant.',
     image:
-      'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Hall d’immeuble professionnel propre et lumineux'
+      'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Hall d’immeuble résidentiel propre et soigné'
   },
   {
     title: 'Nettoyage de fin de chantier',
     text: 'Remise en état professionnelle après travaux, avec intervention structurée selon vos contraintes de délai.',
     image:
-      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Zone de chantier avant remise en état final'
+      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Zone de chantier professionnel en phase de finition'
   },
   {
     title: 'Entretien régulier',
     text: 'Planification personnalisée : 1 fois par semaine, plusieurs passages ou quotidien selon votre activité.',
     image:
-      'https://images.unsplash.com/photo-1581578017424-58f93f6656d9?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Entretien régulier de surfaces vitrées dans des locaux professionnels'
+      'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Technicien de surface nettoyant des bureaux professionnels'
   },
   {
     title: 'Interventions ponctuelles',
     text: 'Besoin urgent ou opération exceptionnelle : nous proposons des interventions rapides et efficaces.',
     image:
-      'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Intervention ponctuelle de nettoyage dans un bureau'
+      'https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Intervention ponctuelle de nettoyage sur site professionnel'
   }
 ]
 
@@ -89,13 +89,31 @@ const faq = [
   }
 ]
 
-async function submitToFormSubmit(formElement) {
+async function submitToFormSubmit(formElement, subject) {
   const formData = new FormData(formElement)
-  await fetch('https://formsubmit.co/contact@mazar-services.fr', {
+  formData.append('_subject', subject)
+  formData.append('_captcha', 'false')
+  formData.append('_template', 'table')
+
+  const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
     method: 'POST',
-    mode: 'no-cors',
+    headers: {
+      Accept: 'application/json'
+    },
     body: formData
   })
+
+  if (!response.ok) {
+    throw new Error('Erreur réseau FormSubmit')
+  }
+
+  const result = await response.json()
+
+  if (result.success !== 'true' && result.success !== true) {
+    throw new Error('FormSubmit a refusé la requête')
+  }
+
+  return result
 }
 
 export default function App() {
@@ -108,7 +126,7 @@ export default function App() {
     setQuoteState({ loading: true, message: '' })
 
     try {
-      await submitToFormSubmit(event.currentTarget)
+      await submitToFormSubmit(event.currentTarget, 'Nouvelle demande de devis - MAZAR SERVICES')
       event.currentTarget.reset()
       setQuoteState({
         loading: false,
@@ -128,7 +146,7 @@ export default function App() {
     setCallbackState({ loading: true, message: '' })
 
     try {
-      await submitToFormSubmit(event.currentTarget)
+      await submitToFormSubmit(event.currentTarget, 'Demande de rappel - MAZAR SERVICES')
       event.currentTarget.reset()
       setCallbackState({
         loading: false,
@@ -197,8 +215,8 @@ export default function App() {
             </div>
             <div className="hero-visual" role="img" aria-label="Visuel professionnel nettoyage en bureau">
               <img
-                src="https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=1500&q=80"
-                alt="Agent de nettoyage professionnel désinfectant un bureau"
+                src="https://images.unsplash.com/photo-1603712725038-e9334ae8f39f?auto=format&fit=crop&w=1500&q=80"
+                alt="Bureaux professionnels propres et lumineux"
                 loading="eager"
               />
             </div>
@@ -316,15 +334,6 @@ export default function App() {
               </div>
               <p className="reply-time">⏱ Réponse sous 24h ouvrées (généralement plus rapide).</p>
               <form className="devis-form" onSubmit={handleQuoteSubmit}>
-                <input type="hidden" name="_subject" value="Nouvelle demande de devis - MAZAR SERVICES" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
-                <input
-                  type="hidden"
-                  name="_autoresponse"
-                  value="Merci pour votre demande. MAZAR SERVICES a bien reçu votre message et vous répond sous 24h ouvrées."
-                />
-
                 <label>
                   Entreprise / structure
                   <input name="Entreprise" type="text" required />
@@ -406,11 +415,7 @@ export default function App() {
 
             <aside id="rappel" className="callback">
               <h3>Être rappelé rapidement</h3>
-              <p>Demande courte : laissez votre numéro, nous revenons vers vous au plus vite.</p>
               <form onSubmit={handleCallbackSubmit}>
-                <input type="hidden" name="_subject" value="Demande de rappel - MAZAR SERVICES" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
                 <label>
                   Téléphone
                   <input type="tel" name="Téléphone" required />
@@ -419,10 +424,6 @@ export default function App() {
                   {callbackState.loading ? 'Envoi en cours...' : 'Demander un rappel'}
                 </button>
               </form>
-
-              <p className="sms-note">
-                SMS automatique : possible en option via une intégration Twilio/OVH SMS (à activer ensuite).
-              </p>
 
               <div className="contact-box">
                 <h4>Contact direct</h4>

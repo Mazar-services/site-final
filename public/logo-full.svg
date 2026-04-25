@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="560" height="132" viewBox="0 0 560 132" fill="none" role="img" aria-labelledby="t d">
   <title id="t">Logo MAZAR SERVICES</title>
-  <desc id="d">Logo MAZAR SERVICES monogramme MS et signature lisible en bleu marine et doré.</desc>
+  <desc id="d">Logo MAZAR SERVICES monogramme MS et signature séparée en bleu marine et doré.</desc>
 
-  <line x1="12" y1="66" x2="170" y2="66" stroke="#C7A35E" stroke-width="3" stroke-linecap="round"/>
-  <line x1="388" y1="66" x2="548" y2="66" stroke="#C7A35E" stroke-width="3" stroke-linecap="round"/>
+  <line x1="12" y1="56" x2="170" y2="56" stroke="#C7A35E" stroke-width="3" stroke-linecap="round"/>
+  <line x1="388" y1="56" x2="548" y2="56" stroke="#C7A35E" stroke-width="3" stroke-linecap="round"/>
 
-  <g transform="translate(184 14)">
+  <g transform="translate(184 6)">
     <path d="M0 88V10L40 44 80 10v24l-9-2V30L40 62 9 30v58H0Z" fill="#0B1F3A"/>
     <path d="M92 72c7 8 15 11 24 11 10 0 17-4 17-11 0-8-6-11-18-14-14-4-27-11-27-26 0-14 11-25 29-25 11 0 21 4 30 11l-8 10c-7-5-13-8-21-8-9 0-15 4-15 11 0 8 7 11 17 14 15 4 29 11 29 26 0 16-12 26-31 26-14 0-26-5-36-15l10-10Z" fill="#C7A35E"/>
   </g>
 
-  <text x="206" y="118" fill="#0B1F3A" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="800" font-size="29" letter-spacing="3">MAZAR SERVICES</text>
+  <text x="280" y="122" text-anchor="middle" fill="#0B1F3A" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="800" font-size="35" letter-spacing="2.4">MAZAR SERVICES</text>
 </svg>
