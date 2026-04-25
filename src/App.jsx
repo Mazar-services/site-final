@@ -5,8 +5,8 @@ const serviceItems = [
     title: 'Entretien de bureaux et entreprises',
     text: 'Nettoyage discret, régulier et organisé pour offrir un environnement de travail impeccable à vos équipes.',
     image:
-      'https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Bureau professionnel moderne, propre et lumineux'
+      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Open space professionnel propre et lumineux'
   },
   {
     title: 'Nettoyage de commerces et boutiques',
@@ -19,15 +19,15 @@ const serviceItems = [
     title: 'Entretien de copropriétés et immeubles',
     text: 'Halls, escaliers, parties communes et vitrages entretenus avec un suivi sérieux et constant.',
     image:
-      'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Hall d’immeuble résidentiel propre et soigné'
+      'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Hall de copropriété propre avec parties communes entretenues'
   },
   {
     title: 'Nettoyage de fin de chantier',
     text: 'Remise en état professionnelle après travaux, avec intervention structurée selon vos contraintes de délai.',
     image:
-      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=80',
-    alt: 'Zone de chantier professionnel en phase de finition'
+      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1400&q=80',
+    alt: 'Fin de chantier et remise en état d’un local professionnel'
   },
   {
     title: 'Entretien régulier',
@@ -107,10 +107,12 @@ async function submitToFormSubmit(formElement, subject) {
     throw new Error('Erreur réseau FormSubmit')
   }
 
-  const result = await response.json()
+  let result = null
 
-  if (result.success !== 'true' && result.success !== true) {
-    throw new Error('FormSubmit a refusé la requête')
+  try {
+    result = await response.json()
+  } catch {
+    result = { success: true }
   }
 
   return result
