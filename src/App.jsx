@@ -90,34 +90,79 @@ const faq = [
 ]
 
 
-async function submitToFormSubmit(formElement, subject) {
-  const fields = Object.fromEntries(new FormData(formElement).entries())
+function submitViaHiddenForm(formData) {
+  return new Promise((resolve, reject) => {
+    const frameName = `formsubmit-frame-${Date.now()}`
+    const iframe = document.createElement('iframe')
+    iframe.name = frameName
+    iframe.style.display = 'none'
 
-  const payload = {
-    ...fields,
-    _subject: subject,
-    _captcha: 'false',
-    _template: 'table'
-  }
+    const form = document.createElement('form')
+    form.method = 'POST'
+    form.action = 'https://formsubmit.co/contact@mazar-services.fr'
+    form.target = frameName
+    form.style.display = 'none'
 
-  const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    },
-    body: JSON.stringify(payload)
+    for (const [key, value] of formData.entries()) {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = key
+      input.value = String(value)
+      form.appendChild(input)
+    }
+
+    const cleanup = () => {
+      clearTimeout(timer)
+      iframe.remove()
+      form.remove()
+    }
+
+    const timer = setTimeout(() => {
+      cleanup()
+      reject(new Error('Timeout fallback FormSubmit'))
+    }, 10000)
+
+    iframe.addEventListener('load', () => {
+      cleanup()
+      resolve(true)
+    })
+
+    document.body.appendChild(iframe)
+    document.body.appendChild(form)
+    form.submit()
   })
+}
 
-  if (!response.ok) {
-    throw new Error('Réponse réseau invalide')
+async function submitToFormSubmit(formElement, subject) {
+  const formData = new FormData(formElement)
+  formData.append('_subject', subject)
+  formData.append('_captcha', 'false')
+  formData.append('_template', 'table')
+
+  const payload = Object.fromEntries(formData.entries())
+
+  try {
+    const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+
+    if (!response.ok) throw new Error('Réponse AJAX invalide')
+
+    const result = await response.json()
+
+    if (result.success === 'true' || result.success === true) {
+      return
+    }
+  } catch {
+    // Fallback below
   }
 
-  const result = await response.json()
-
-  if (result.success !== 'true' && result.success !== true) {
-    throw new Error('FormSubmit a rejeté la requête')
-  }
+  await submitViaHiddenForm(formData)
 }
 
 export default function App() {
