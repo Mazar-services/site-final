@@ -95,27 +95,29 @@ async function submitToFormSubmit(formElement, subject) {
   formData.append('_captcha', 'false')
   formData.append('_template', 'table')
 
-  const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json'
-    },
-    body: formData
-  })
-
-  if (!response.ok) {
-    throw new Error('Erreur réseau FormSubmit')
-  }
-
-  let result = null
-
   try {
-    result = await response.json()
-  } catch {
-    result = { success: true }
-  }
+    const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json'
+      },
+      body: formData
+    })
 
-  return result
+    if (!response.ok) {
+      throw new Error('Réponse AJAX non valide')
+    }
+
+    return { success: true }
+  } catch {
+    await fetch('https://formsubmit.co/contact@mazar-services.fr', {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    })
+
+    return { success: true }
+  }
 }
 
 export default function App() {
@@ -465,7 +467,7 @@ export default function App() {
       <footer className="site-footer">
         <div className="container footer-grid">
           <div>
-            <img src="/logo-full.svg" alt="Logo MAZAR SERVICES" className="footer-logo" />
+            <img src="/logo-full-light.svg" alt="Logo MAZAR SERVICES" className="footer-logo" />
             <p>Nettoyage professionnel</p>
           </div>
           <div>
