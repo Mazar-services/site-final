@@ -95,29 +95,13 @@ async function submitToFormSubmit(formElement, subject) {
   formData.append('_captcha', 'false')
   formData.append('_template', 'table')
 
-  try {
-    const response = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json'
-      },
-      body: formData
-    })
+  await fetch('https://formsubmit.co/contact@mazar-services.fr', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  })
 
-    if (!response.ok) {
-      throw new Error('Réponse AJAX non valide')
-    }
-
-    return { success: true }
-  } catch {
-    await fetch('https://formsubmit.co/contact@mazar-services.fr', {
-      method: 'POST',
-      mode: 'no-cors',
-      body: formData
-    })
-
-    return { success: true }
-  }
+  return { success: true }
 }
 
 export default function App() {
@@ -419,6 +403,7 @@ export default function App() {
 
             <aside id="rappel" className="callback">
               <h3>Être rappelé rapidement</h3>
+              <p>Insérez votre numéro pour être appelé dans les plus brefs délais.</p>
               <form onSubmit={handleCallbackSubmit}>
                 <label>
                   Téléphone
