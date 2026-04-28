@@ -91,7 +91,7 @@ const faq = [
 
 
 function submitViaHiddenForm(formData) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const frameName = `formsubmit-frame-${Date.now()}`
     const iframe = document.createElement('iframe')
     iframe.name = frameName
@@ -112,24 +112,22 @@ function submitViaHiddenForm(formData) {
     }
 
     const cleanup = () => {
-      clearTimeout(timer)
       iframe.remove()
       form.remove()
     }
 
-    const timer = setTimeout(() => {
-      cleanup()
-      reject(new Error('Timeout fallback FormSubmit'))
-    }, 10000)
-
-    iframe.addEventListener('load', () => {
+    const safeResolve = () => {
       cleanup()
       resolve(true)
-    })
+    }
+
+    iframe.addEventListener('load', safeResolve, { once: true })
 
     document.body.appendChild(iframe)
     document.body.appendChild(form)
     form.submit()
+
+    setTimeout(safeResolve, 1500)
   })
 }
 

@@ -35,7 +35,7 @@ img { max-width: 100%; display: block; }
 }
 .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 0; }
 .brand { display: inline-flex; align-items: center; }
-.brand img { height: 82px; width: auto; }
+.brand img { height: 74px; width: auto; }
 nav { display: flex; gap: 1.2rem; font-weight: 600; color: var(--navy); }
 .header-cta { display: flex; gap: .6rem; }
 
@@ -288,7 +288,7 @@ summary { cursor: pointer; font-weight: 700; color: var(--navy); }
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
 }
-.footer-logo { height: 58px; margin-bottom: .5rem; }
+.footer-logo { height: 72px; margin-bottom: .5rem; }
 .site-footer a { color: #fff; display: block; margin-bottom: .45rem; }
 
 .toast {
@@ -350,7 +350,7 @@ summary { cursor: pointer; font-weight: 700; color: var(--navy); }
 
 @media (max-width: 700px) {
   .section { padding: 3.8rem 0; }
-  .brand img { height: 64px; }
+  .brand img { height: 60px; }
   .header-cta .btn { padding: .62rem .7rem; font-size: .88rem; }
   .services-grid, .reasons-grid, .footer-grid, .two-cols, .process-grid { grid-template-columns: 1fr; }
   .toast { left: 12px; right: 12px; bottom: 12px; max-width: none; }

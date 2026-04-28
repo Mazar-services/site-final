@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
-  <rect width="128" height="128" rx="24" fill="#fff"/>
-  <rect x="10" y="10" width="108" height="108" rx="20" stroke="#D8C08D" stroke-width="2"/>
-  <path d="M34 94V30l23 20 23-20v17l-5-2v-4L57 58 39 41v53h-5Z" fill="#0B1F3A"/>
-  <path d="M82 81c4 4 8 6 13 6s9-2 9-6c0-4-4-6-10-8-8-3-16-7-16-16 0-9 7-15 17-15 7 0 12 2 18 6l-5 7c-4-3-8-4-13-4-5 0-8 2-8 6 0 5 4 6 10 8 9 3 17 8 17 17 0 10-8 16-19 16-9 0-16-3-22-10l9-7Z" fill="#C7A35E"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="MS">
+  <circle cx="32" cy="32" r="30" fill="#ffffff" stroke="#0a3a74" stroke-width="2"/>
+  <text x="29" y="38" text-anchor="middle" fill="#0a3a74" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700">M</text>
+  <text x="39" y="38" text-anchor="middle" fill="#c8952f" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="500">S</text>
 </svg>
