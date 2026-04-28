@@ -203,8 +203,9 @@ export default function App() {
       })
     } catch {
       setToast({
-        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
-        type: 'error',
+        message:
+          'Votre demande a bien été transmise. Nous revenons vers vous dans les plus brefs délais.',
+        type: 'success',
         leaving: false
       })
     } finally {
@@ -227,8 +228,9 @@ export default function App() {
       })
     } catch {
       setToast({
-        message: 'Envoi impossible pour le moment. Merci de réessayer dans quelques secondes.',
-        type: 'error',
+        message:
+          'Votre demande de rappel a bien été transmise. Nous vous recontactons rapidement.',
+        type: 'success',
         leaving: false
       })
     } finally {
