@@ -1,13 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="620" height="150" viewBox="0 0 620 150" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="150" viewBox="0 0 640 150" role="img" aria-labelledby="t d">
   <title id="t">MAZAR SERVICES</title>
-  <desc id="d">Logo MAZAR SERVICES adapté au site avec meilleure lisibilité.</desc>
+  <desc id="d">Logo MAZAR SERVICES premium sans lettre imbriquée.</desc>
 
-  <circle cx="74" cy="75" r="56" fill="#ffffff" stroke="#0a3a74" stroke-width="4"/>
-  <text x="58" y="90" fill="#0a3a74" font-family="Georgia, 'Times New Roman', serif" font-size="60" font-weight="700">M</text>
-  <text x="90" y="90" fill="#c8952f" font-family="Georgia, 'Times New Roman', serif" font-size="50" font-weight="700">S</text>
+  <rect x="10" y="18" width="130" height="114" rx="18" fill="#0b2345"/>
+  <text x="75" y="86" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700">M</text>
+  <rect x="108" y="28" width="34" height="34" rx="8" fill="#c8952f"/>
+  <text x="125" y="53" text-anchor="middle" fill="#0b2345" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">S</text>
 
-  <text x="155" y="67" fill="#0a3a74" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="800" letter-spacing="3">MAZAR</text>
-  <line x1="158" y1="97" x2="246" y2="97" stroke="#c8952f" stroke-width="3"/>
-  <line x1="448" y1="97" x2="536" y2="97" stroke="#c8952f" stroke-width="3"/>
-  <text x="347" y="106" text-anchor="middle" fill="#c8952f" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="800" letter-spacing="9">SERVICES</text>
+  <text x="170" y="70" fill="#0a3a74" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="3">MAZAR</text>
+  <line x1="172" y1="99" x2="266" y2="99" stroke="#c8952f" stroke-width="4"/>
+  <line x1="470" y1="99" x2="564" y2="99" stroke="#c8952f" stroke-width="4"/>
+  <text x="368" y="108" text-anchor="middle" fill="#c8952f" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="800" letter-spacing="9">SERVICES</text>
 </svg>
