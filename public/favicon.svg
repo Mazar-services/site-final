@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="MS">
-  <circle cx="32" cy="32" r="30" fill="#f6f9ff" stroke="#0a3a74" stroke-width="3"/>
-  <text x="22" y="40" fill="#0a3a74" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="700">M</text>
-  <text x="37" y="40" fill="#c8952f" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700">S</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="MS">
+  <circle cx="64" cy="64" r="60" fill="#ffffff" stroke="#0a3a74" stroke-width="6"/>
+  <text x="44" y="80" fill="#0a3a74" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700">M</text>
+  <text x="76" y="80" fill="#c8952f" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700">S</text>
 </svg>
