@@ -1,14 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="150" viewBox="0 0 640 150" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="160" viewBox="0 0 660 160" role="img" aria-labelledby="t d">
   <title id="t">MAZAR SERVICES</title>
-  <desc id="d">Logo MAZAR SERVICES premium sans lettre imbriquée pour fond sombre.</desc>
+  <desc id="d">Identité numérique MAZAR SERVICES avec emblème géométrique premium pour fond sombre.</desc>
 
-  <rect x="10" y="18" width="130" height="114" rx="18" fill="#f2f7ff"/>
-  <text x="75" y="86" text-anchor="middle" fill="#0b2345" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700">M</text>
-  <rect x="108" y="28" width="34" height="34" rx="8" fill="#c8952f"/>
-  <text x="125" y="53" text-anchor="middle" fill="#0b2345" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">S</text>
+  <defs>
+    <linearGradient id="gNavyL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e4f91"/>
+      <stop offset="100%" stop-color="#0b234a"/>
+    </linearGradient>
+    <linearGradient id="gGoldL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e2c06f"/>
+      <stop offset="100%" stop-color="#c79333"/>
+    </linearGradient>
+  </defs>
 
-  <text x="170" y="70" fill="#f4f8ff" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="3">MAZAR</text>
-  <line x1="172" y1="99" x2="266" y2="99" stroke="#c8952f" stroke-width="4"/>
-  <line x1="470" y1="99" x2="564" y2="99" stroke="#c8952f" stroke-width="4"/>
-  <text x="368" y="108" text-anchor="middle" fill="#c8952f" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="800" letter-spacing="9">SERVICES</text>
+  <rect x="14" y="18" width="124" height="124" rx="28" fill="url(#gNavyL)"/>
+  <path d="M38 104L66 50l12 24 16-31 20 40" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M90 104h24" stroke="url(#gGoldL)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="48" cy="46" r="4" fill="#e2c06f"/>
+
+  <text x="164" y="74" fill="#f2f7ff" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="3">MAZAR</text>
+  <line x1="166" y1="103" x2="264" y2="103" stroke="url(#gGoldL)" stroke-width="4"/>
+  <line x1="476" y1="103" x2="574" y2="103" stroke="url(#gGoldL)" stroke-width="4"/>
+  <text x="370" y="112" text-anchor="middle" fill="#d9ab53" font-family="Inter, Arial, sans-serif" font-size="33" font-weight="800" letter-spacing="10">SERVICES</text>
 </svg>
