@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="160" viewBox="0 0 660 160" role="img" aria-labelledby="t d">
+  <title id="t">MAZAR SERVICES</title>
+  <desc id="d">Identité numérique MAZAR SERVICES avec emblème géométrique premium pour fond sombre.</desc>
+
+  <defs>
+    <linearGradient id="gNavyL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e4f91"/>
+      <stop offset="100%" stop-color="#0b234a"/>
+    </linearGradient>
+    <linearGradient id="gGoldL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e2c06f"/>
+      <stop offset="100%" stop-color="#c79333"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="14" y="18" width="124" height="124" rx="28" fill="url(#gNavyL)"/>
+  <path d="M38 104L66 50l12 24 16-31 20 40" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M90 104h24" stroke="url(#gGoldL)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="48" cy="46" r="4" fill="#e2c06f"/>
+
+  <text x="164" y="74" fill="#f2f7ff" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="3">MAZAR</text>
+  <line x1="166" y1="103" x2="264" y2="103" stroke="url(#gGoldL)" stroke-width="4"/>
+  <line x1="476" y1="103" x2="574" y2="103" stroke="url(#gGoldL)" stroke-width="4"/>
+  <text x="370" y="112" text-anchor="middle" fill="#d9ab53" font-family="Inter, Arial, sans-serif" font-size="33" font-weight="800" letter-spacing="10">SERVICES</text>
+</svg>

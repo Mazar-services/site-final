@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="Mazar emblem">
+  <defs>
+    <linearGradient id="n" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f3c78"/>
+      <stop offset="100%" stop-color="#081d3f"/>
+    </linearGradient>
+    <linearGradient id="o" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d5ae57"/>
+      <stop offset="100%" stop-color="#b88324"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="116" height="116" rx="28" fill="url(#n)"/>
+  <path d="M26 88L49 42l10 20 14-26 18 36" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M70 88h20" stroke="url(#o)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="34" cy="38" r="4" fill="#d5ae57"/>
+</svg>
