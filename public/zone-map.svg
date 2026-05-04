@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" fill="none">
+  <rect width="900" height="620" rx="24" fill="#F2F6FC"/>
+  <path d="M168 487c44-64 31-132 84-185 41-41 105-42 158-70 65-34 82-118 161-128 88-11 141 84 126 167-12 67-70 100-121 142-49 40-66 98-124 130-84 47-201 28-284-56Z" fill="#DCE7F7" stroke="#98ACC9" stroke-width="4"/>
+  <path d="M312 454c16-29 18-60 42-83 23-23 58-26 88-43 36-20 45-64 88-70 48-6 79 45 71 90-6 37-37 56-64 80-27 23-35 53-67 70-47 26-113 16-158-44Z" fill="#0B1F3A" fill-opacity="0.9"/>
+  <circle cx="414" cy="338" r="9" fill="#CBA45B"/>
+  <circle cx="463" cy="365" r="9" fill="#CBA45B"/>
+  <circle cx="510" cy="323" r="9" fill="#CBA45B"/>
+  <rect x="62" y="52" width="300" height="94" rx="14" fill="#fff" stroke="#D2DCEB"/>
+  <text x="84" y="88" fill="#0B1F3A" font-family="Inter,Arial" font-weight="700" font-size="28">Zone couverte</text>
+  <text x="84" y="119" fill="#5B6470" font-family="Inter,Arial" font-size="20">Grenoble • Bassin grenoblois • Grésivaudan</text>
+</svg>
