@@ -5,4 +5,4 @@
 
 [env.production]
   [env.production.context.production.environment]
-    BREVO_API_KEY = ""
+    # BREVO_API_KEY must be set in Netlify environment variables for production

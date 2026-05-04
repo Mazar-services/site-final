@@ -78,55 +78,6 @@ const faq = [
   { q: 'Comment se déroule la première intervention ?', a: 'Après validation du devis, nous planifions ensemble la première intervention selon vos horaires et contraintes. Un suivi est assuré dès le départ.' },
 ]
 
-// ── Form helpers ──────────────────────────────────────────────────────────────
-function submitViaHiddenForm(formData) {
-  return new Promise((resolve) => {
-    const frameName = `formsubmit-frame-${Date.now()}`
-    const iframe    = document.createElement('iframe')
-    const form      = document.createElement('form')
-    iframe.name = frameName
-    iframe.style.display = 'none'
-    form.method = 'POST'
-    form.action = 'https://formsubmit.co/contact@mazar-services.fr'
-    form.target = frameName
-    form.style.display = 'none'
-    for (const [key, value] of formData.entries()) {
-      const input = document.createElement('input')
-      input.type = 'hidden'; input.name = key; input.value = String(value)
-      form.appendChild(input)
-    }
-    const cleanup     = () => { iframe.remove(); form.remove() }
-    const safeResolve = () => { cleanup(); resolve(true) }
-    iframe.addEventListener('load', safeResolve, { once: true })
-    document.body.appendChild(iframe)
-    document.body.appendChild(form)
-    form.submit()
-    setTimeout(safeResolve, 1500)
-  })
-}
-
-async function submitToFormSubmit(formElement, subject, autoresponse) {
-  const formData = new FormData(formElement)
-  formData.append('_subject', subject)
-  formData.append('_captcha', 'false')
-  formData.append('_template', 'table')
-  if (autoresponse) formData.append('_autoresponse', autoresponse)
-  const payload = Object.fromEntries(formData.entries())
-  try {
-    const res = await fetch('https://formsubmit.co/ajax/contact@mazar-services.fr', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload),
-    })
-    if (!res.ok) throw new Error()
-    const result = await res.json()
-    if (result.success === 'true' || result.success === true) return
-  } catch (err) {
-    console.error('[FormSubmit] fetch failed, falling back to hidden form:', err)
-  }
-  await submitViaHiddenForm(formData)
-}
-
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const [quoteStep,     setQuoteStep]     = useState(1)
@@ -177,21 +128,23 @@ export default function App() {
     try {
       const formElement = e.currentTarget
       const formData = new FormData(formElement)
-      const customerEmail = formData.get('email')
 
-      // Send confirmation email via Brevo through Netlify Function
-      const brevoRes = await fetch('/.netlify/functions/send-devis-email', {
+      // Send to consolidated quote request function (handles customer confirmation + admin notification)
+      const res = await fetch('/.netlify/functions/receive-quote-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: customerEmail }),
+        body: JSON.stringify({
+          name: formData.get('name'),
+          email: formData.get('email'),
+          serviceType: formData.get('Type de structure'),
+          city: formData.get('Adresse'),
+          surface: formData.get('Surface'),
+          frequency: formData.get('Fréquence'),
+          message: formData.get('message'),
+        }),
       })
-      if (!brevoRes.ok) throw new Error('Brevo email failed')
+      if (!res.ok) throw new Error('Quote request failed')
 
-      // Send internal notification via FormSubmit
-      await submitToFormSubmit(
-        formElement,
-        'Nouvelle demande de devis – MAZAR SERVICES'
-      )
       formElement.reset()
       setQuoteStep(1)
       setToast({ message: 'Merci ! Notre équipe vous répond dans les plus brefs délais.', type: 'success', leaving: false })
@@ -204,7 +157,18 @@ export default function App() {
     e.preventDefault()
     setCallbackState({ loading: true })
     try {
-      await submitToFormSubmit(e.currentTarget, 'Demande de rappel – MAZAR SERVICES')
+      const formData = new FormData(e.currentTarget)
+      const res = await fetch('/.netlify/functions/receive-callback-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.get('Nom'),
+          phone: formData.get('Téléphone'),
+          email: formData.get('Email'),
+          timeSlot: formData.get('Créneau'),
+        }),
+      })
+      if (!res.ok) throw new Error('Callback request failed')
       e.currentTarget.reset()
       setToast({ message: 'Demande de rappel reçue. Nous vous recontactons rapidement.', type: 'success', leaving: false })
     } catch {
